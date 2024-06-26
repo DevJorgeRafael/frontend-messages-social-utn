@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuth } from "@/context/authContext";
@@ -12,16 +12,22 @@ type FormData = {
 export default function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const router = useRouter();
-    const { login } = useAuth();
+    const { login, isAuthenticated } = useAuth();
+    console.log(isAuthenticated)
+
+    useEffect(() => {
+      if (isAuthenticated) {
+        router.push('/main');
+      }
+    }, [isAuthenticated])
 
     const onSubmit: SubmitHandler<FormData> = data => {
-        console.log(data);
         login({ usuario: data.username, contrasenia: data.password});
-        //router.push('/main')
+        router.push('/main')
     }
 
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-200">
+      <div className="flex items-center justify-center h-screen">
         <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
           <h1 className="text-xl mb-4 text-gray-900">Iniciar Sesión</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
