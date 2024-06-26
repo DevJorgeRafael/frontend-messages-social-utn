@@ -1,11 +1,12 @@
-import { useAuth } from "@/context/authContext"
+import { useAuth } from "@/context/authContext";
 
 export default function Main() {
-    const { user } = useAuth()
+  console.log(useAuth());
+  const { user } = useAuth();
 
-    return (
-        <div>
-            <h1>Main Page</h1>
-        </div>
-    )
+  return (
+    <div>
+      <h1>Main Page</h1>
+    </div>
+  );
 }

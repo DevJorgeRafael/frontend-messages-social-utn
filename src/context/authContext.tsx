@@ -1,12 +1,13 @@
 "use client";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { loginRequest } from "@/api/auth";
+import { loginError } from "@/app/interfaces/loginError.interface";
 
 interface AuthContextType {
   user: any;
   login: (userData: any) => void;
   logout: () => void;
-  errors: any[];
+  errors: loginError;
   isAuthenticated: boolean;
 }
 
@@ -22,7 +23,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState({} as loginError)
   const [user, setUser] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsAuthenticated(true)
     } catch (error: any) {
       setErrors(error.response.data)
+      setIsAuthenticated(false)
     }
     
   };
@@ -41,12 +43,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     Cookies.remove('access_token');
     setUser(null);
+    setIsAuthenticated(false)
   };
 
   useEffect(() => {
     if (Object.keys(errors).length > 0) {
       const timer = setTimeout(() => {
-        setErrors([])
+        setErrors({} as loginError)
       }, 8000)
       return () => clearTimeout(timer)
     }
