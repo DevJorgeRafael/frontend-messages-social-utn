@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useAuth } from "@/context/authContext";
 
 type FormData = {
     username: string;
@@ -11,16 +12,16 @@ type FormData = {
 export default function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const router = useRouter();
+    const { login } = useAuth();
 
     const onSubmit: SubmitHandler<FormData> = data => {
-        console.log(data)
-
-        //Lógica de autenticación
-        router.push('/main')
+        console.log(data);
+        login({ usuario: data.username, contrasenia: data.password});
+        //router.push('/main')
     }
 
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="flex items-center justify-center h-screen bg-gray-200">
         <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
           <h1 className="text-xl mb-4 text-gray-900">Iniciar Sesión</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
