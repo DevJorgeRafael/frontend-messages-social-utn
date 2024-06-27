@@ -19,6 +19,12 @@ export default function Login() {
   const { login, isAuthenticated, errors: loginErrors } = useAuth();
 
   useEffect(() => {
+    console.log(isAuthenticated);
+    if (isAuthenticated) {
+      router.push("/main");
+    }
+  }, []);
+  useEffect(() => {
     if (isAuthenticated) {
       router.push("/main");
     }
@@ -29,7 +35,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen flex-col">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
         <h1 className="text-xl mb-4 text-gray-900">Iniciar Sesión</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -46,7 +52,7 @@ export default function Login() {
             {errors.username && (
               <p className="text-red-500">{errors.username.message}</p>
             )}
-            {loginErrors.error === 'usuario' && (
+            {loginErrors.error === "usuario" && (
               <p className="text-red-500">{loginErrors.message}</p>
             )}
           </div>
@@ -64,7 +70,7 @@ export default function Login() {
             {errors.password && (
               <p className="text-red-500">{errors.password.message}</p>
             )}
-            {loginErrors.error === 'contrasenia' && (
+            {loginErrors.error === "contrasenia" && (
               <p className="text-red-500">{loginErrors.message}</p>
             )}
           </div>
@@ -75,6 +81,15 @@ export default function Login() {
             Iniciar Sesión
           </button>
         </form>
+      </div>
+
+      <div className="bg-white px-8 py-4 rounded shadow-md w-full max-w-sm mt-4">
+        <h3 className="text-gray-900 text-xl">Información</h3>
+        <h6 className="text-gray-800 text-xs">
+          Para los estudiantes nuevos, favor ingresar con la{" "}
+          <span className="font-bold">E y el numero de cédula </span>
+          tanto en usuario como en contraseña.
+        </h6>
       </div>
     </div>
   );
