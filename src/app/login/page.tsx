@@ -19,7 +19,6 @@ export default function Login() {
   const { login, isAuthenticated, errors: loginErrors } = useAuth();
 
   useEffect(() => {
-    console.log(isAuthenticated);
     if (isAuthenticated) {
       router.push("/main");
     }

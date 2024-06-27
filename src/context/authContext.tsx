@@ -6,7 +6,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
-import { loginRequest } from "@/api/auth";
+import { loginRequest, verifyTokenRequest } from "@/api/auth";
 import { loginError } from "@/interfaces/loginError.interface";
 import Cookies from "js-cookie";
 
@@ -16,6 +16,7 @@ interface AuthContextType {
   logout: () => void;
   errors: loginError;
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,11 +33,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [errors, setErrors] = useState<loginError>({} as loginError);
   const [user, setUser] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const login = async (userData: any) => {
     try {
       const response = await loginRequest(userData);
-      console.log(response)
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error: any) {
@@ -60,12 +61,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [errors]);
 
+  useEffect(() => {
+    async function checkLogin() {
+      const token = Cookies.get('access_token');
+
+      if(!token) {
+        setIsAuthenticated(false);
+
+        return setUser(null);
+      }
+      try {
+        const res = await verifyTokenRequest()
+        if(!res.data) {
+          setIsAuthenticated(false);
+          return setUser(null);
+        }
+
+        setIsAuthenticated(true);
+        setUser(res.data);
+
+      } catch (error) {
+        setIsAuthenticated(false);
+        setUser(null);
+      }
+    }
+
+    checkLogin();
+  }, [])
+
   return (
     <AuthContext.Provider
       value={{ 
         user, login, 
         logout, errors, 
-        isAuthenticated 
+        isAuthenticated,
+        isLoading 
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 import React from 'react'
 
-export const profesorComponent = () => {
+export const ProfesorComponent = () => {
   return (
-    <div>profesorComponent</div>
+    <div className='text-gray-800'>profesorComponent</div>
   )
 }
