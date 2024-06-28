@@ -1,5 +1,6 @@
 'use client'
 import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/react";
 
 export default function Home() {
   const router = useRouter();
@@ -18,12 +19,6 @@ export default function Home() {
           Bienvenidos a Social-UTN, red social oficial de la Universidad Técnica del
           Norte. Conéctate, comparte y colabora con la comunidad universitaria.
         </p>
-        <button
-          onClick={handleLoginRedirect}
-          className="mt-6 bg-red-600 text-white px-6 py-3 rounded-full hover:bg-red-700"
-        >
-          Iniciar Sesión
-        </button>
       </div>
     </main>
   );

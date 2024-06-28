@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuth } from "@/context/authContext";
+import { Button, Spinner } from "@nextui-org/react";
 
 type FormData = {
   username: string;
@@ -16,7 +17,9 @@ export default function Login() {
     formState: { errors },
   } = useForm<FormData>();
   const router = useRouter();
-  const { login, isAuthenticated, errors: loginErrors } = useAuth();
+  const { login, isAuthenticated, errors: loginErrors, isLoading } = useAuth();
+
+  console.log(isLoading)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -28,6 +31,7 @@ export default function Login() {
       router.push("/main");
     }
   }, [isAuthenticated]);
+
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     login({ usuario: data.username, contrasenia: data.password });
@@ -46,7 +50,7 @@ export default function Login() {
               })}
               type="text"
               placeholder="Usuario"
-              className="p-2 border border-gray-300 rounded w-full text-gray-800"
+              className="p-2 border border-gray-300 rounded-xl w-full text-gray-800"
             />
             {errors.username && (
               <p className="text-red-500">{errors.username.message}</p>
@@ -64,7 +68,7 @@ export default function Login() {
               })}
               type="password"
               placeholder="Contraseña"
-              className="p-2 border border-gray-300 rounded w-full text-gray-800"
+              className="p-2 border border-gray-300 rounded-xl w-full text-gray-800"
             />
             {errors.password && (
               <p className="text-red-500">{errors.password.message}</p>
@@ -73,12 +77,16 @@ export default function Login() {
               <p className="text-red-500">{loginErrors.message}</p>
             )}
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded w-full"
-          >
-            Iniciar Sesión
-          </button>
+
+          {isLoading ? (
+            <div className="flex justify-center">
+              <Spinner />
+            </div>
+          ) : (
+            <Button type="submit" className="bg-blue-500 text-white p-2 w-full">
+              Iniciar Sesión
+            </Button>
+          )}
         </form>
       </div>
 
