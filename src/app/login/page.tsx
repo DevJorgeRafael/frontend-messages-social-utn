@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuth } from "@/context/authContext";
@@ -19,23 +19,23 @@ export default function Login() {
   const router = useRouter();
   const { login, isAuthenticated, errors: loginErrors, isLoading } = useAuth();
 
-  console.log(isLoading)
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/main");
-    }
-  }, []);
   useEffect(() => {
     if (isAuthenticated) {
       router.push("/main");
     }
   }, [isAuthenticated]);
 
-
   const onSubmit: SubmitHandler<FormData> = (data) => {
     login({ usuario: data.username, contrasenia: data.password });
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center h-screen flex-col">
@@ -78,15 +78,9 @@ export default function Login() {
             )}
           </div>
 
-          {isLoading ? (
-            <div className="flex justify-center">
-              <Spinner />
-            </div>
-          ) : (
-            <Button type="submit" className="bg-blue-500 text-white p-2 w-full">
-              Iniciar Sesión
-            </Button>
-          )}
+          <Button type="submit" className="bg-blue-500 text-white p-2 w-full">
+            Iniciar Sesión
+          </Button>
         </form>
       </div>
 
