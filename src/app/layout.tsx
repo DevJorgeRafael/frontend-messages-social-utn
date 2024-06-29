@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/authContext";
-import { NextUIProvider } from "@nextui-org/react"; 
+import { NextUIProvider } from "@nextui-org/react";
 import CustomNavbar from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
 import { useState } from "react";
+import { SocketProvider } from "@/context/socketContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,11 +24,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <NextUIProvider>
-            {/* <CustomNavbar /> */}
-            {/* <Sidebar/> */}
-            <div className="main-content min-h-screen">{children}</div>
-          </NextUIProvider>
+          <SocketProvider>
+            <NextUIProvider>
+              {/* <CustomNavbar /> */}
+              {/* <Sidebar/> */}
+              <div className="main-content min-h-screen">{children}</div>
+            </NextUIProvider>
+          </SocketProvider>
         </AuthProvider>
       </body>
     </html>

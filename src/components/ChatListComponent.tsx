@@ -8,8 +8,8 @@ const users = [
 
 export const ChatList = () => {
   return (
-    <div className="w-80 p-4">
-      <h2 className="text-xl font-bold text-gray-800">Chats</h2>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold text-gray-800">Chats</h2>
       <input
         type="text"
         placeholder="Search chats"
