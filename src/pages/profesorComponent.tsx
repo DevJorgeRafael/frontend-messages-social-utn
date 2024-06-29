@@ -1,11 +1,30 @@
 import React from "react";
+import { ChatList } from "@/components/ChatListComponent";
+import { ChatWindow } from "@/components/ChatWindowComponent";
+import { ChatInput } from "@/components/ChatInputComponent";
 
-export const ProfesorComponent = () => {
-  console.log("something");
+interface ProfesorComponentProps {
+  view: string;
+  setView: (view: string) => void;
+}
+
+export const ProfesorComponent = ({
+  view,
+  setView,
+}: ProfesorComponentProps) => {
   return (
-    <div className="text-gray-800 p-4">
-      <h1 className="text-2xl">Profesor Component</h1>
-      <p className="text-gray-600">Contenido del componente de profesor.</p>
+    <div className="flex h-screen">
+      {view === "chat" && (
+        <div className="flex-1 flex flex-co">
+          <div className="flex flex-1 overflow-hidden">
+            <ChatList />
+            <div className="flex-1 flex flex-col bg-white">
+              <ChatWindow />
+              <ChatInput />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

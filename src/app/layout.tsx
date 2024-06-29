@@ -5,6 +5,7 @@ import { AuthProvider } from "@/context/authContext";
 import { NextUIProvider } from "@nextui-org/react"; 
 import CustomNavbar from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default function RootLayout({
         <AuthProvider>
           <NextUIProvider>
             {/* <CustomNavbar /> */}
-            <Sidebar/>
+            {/* <Sidebar/> */}
             <div className="main-content min-h-screen">{children}</div>
           </NextUIProvider>
         </AuthProvider>

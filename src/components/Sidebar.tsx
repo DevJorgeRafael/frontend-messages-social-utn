@@ -1,12 +1,11 @@
 "use client";
 import React from "react";
 import { BsPeople, BsBook, BsBriefcase, BsHouse, BsGear } from "react-icons/bs";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
 
-export const Sidebar = () => {
+export const Sidebar = ({ setView }: { setView: (view: string) => void }) => {
   const { isAuthenticated } = useAuth();
-  const router = useRouter();
+
   if (!isAuthenticated) {
     return null;
   }
@@ -14,31 +13,29 @@ export const Sidebar = () => {
   return (
     <div className="bg-red-600 text-white w-15 shadow-md h-screen fixed top-0 left-0 flex flex-col items-center justify-between">
       <BsHouse
-        onClick={() => router.push("/")}
+        onClick={() => setView("home")}
         className="m-4 hover:bg-red-400"
         size={24}
       />
-
       <div>
         <BsPeople
-          onClick={() => router.push("/main")}
+          onClick={() => setView("main")}
           className="m-4 cursor-pointer"
           size={24}
         />
         <BsBook
-          onClick={() => router.push("/chat")}
+          onClick={() => setView("chat")}
           className="m-4 cursor-pointer"
           size={24}
         />
         <BsBriefcase
-          onClick={() => router.push("/settings")}
+          onClick={() => setView("settings")}
           className="m-4 cursor-pointer"
           size={24}
         />
       </div>
-
       <BsGear
-        onClick={() => router.push("/settings")}
+        onClick={() => setView("settings")}
         className="m-4 cursor-pointer"
         size={24}
       />

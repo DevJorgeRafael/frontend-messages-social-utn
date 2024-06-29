@@ -14,7 +14,6 @@ export const AvatarComponent = () => {
   const {user, logout } = useAuth()
   console.log(user)
 
-  //type guards
   const displayName = (user as EstudianteDetalle)?.estudiante?.est_nombre || (user as ProfesorDetalle)?.profesor?.pr_nombre || ""
   const displatLastName = (user as EstudianteDetalle)?.estudiante?.est_apellido || (user as ProfesorDetalle)?.profesor?.pr_apellido || ""
   const displayEmail = (user as EstudianteDetalle)?.estudiante?.est_email || (user as ProfesorDetalle)?.profesor?.pr_email || ""
