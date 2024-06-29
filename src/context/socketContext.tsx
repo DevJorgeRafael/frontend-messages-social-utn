@@ -1,5 +1,5 @@
 "use client";
-import {
+import React, {
   createContext,
   useContext,
   useEffect,
@@ -7,7 +7,7 @@ import {
   ReactNode,
 } from "react";
 import { io, Socket } from "socket.io-client";
-import { useAuth } from "./authContext";
+import Cookies from "js-cookie";
 
 interface SocketContextType {
   socket: Socket | null;
@@ -23,47 +23,41 @@ export const useSocket = () => {
   return context;
 };
 
-export const SocketProvider = ({ children }: { children: ReactNode }) => {
-  const { isAuthenticated } = useAuth();
+interface SocketProviderProps {
+  children: ReactNode;
+}
+
+export const SocketProvider = ({ children }: SocketProviderProps) => {
+  const token = Cookies.get("access_token");
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    if (isAuthenticated && !socket) {
+    if (token) {
       const newSocket = io("http://localhost:3000", {
-        path: "/socket.io",
+        query: { token },
         withCredentials: true,
-        forceNew: true,
-        reconnectionAttempts: 3,
-        timeout: 2000,
         transports: ["websocket", "polling"],
       });
-      setSocket(newSocket);
 
       newSocket.on("connect", () => {
-        console.log("Connected to server");
+        console.log("Connected to WebSocket server");
       });
 
       newSocket.on("disconnect", (reason) => {
-        console.log("Disconnected from server:", reason);
+        console.log("Disconnected from WebSocket server:", reason);
       });
 
       newSocket.on("connect_error", (error) => {
-        console.error("Connection error:", error);
+        console.error("WebSocket connection error:", error);
       });
 
-      newSocket.on("connect_timeout", (timeout) => {
-        console.error("Connection timeout:", timeout);
-      });
-
-      newSocket.on("reconnect_attempt", (attemptNumber) => {
-        console.log("Reconnection attempt:", attemptNumber);
-      });
+      setSocket(newSocket);
 
       return () => {
         newSocket.close();
       };
     }
-  }, [isAuthenticated, socket]);
+  }, [token]);
 
   return (
     <SocketContext.Provider value={{ socket }}>
