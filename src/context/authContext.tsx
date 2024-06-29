@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       try {
         const res = await verifyTokenRequest();
-        console.log(res)
+        // console.log(res)
         if (!res.data) {
           setIsAuthenticated(false);
           setUser(null);

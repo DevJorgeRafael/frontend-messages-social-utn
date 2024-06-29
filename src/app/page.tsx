@@ -5,10 +5,6 @@ import { Button } from "@nextui-org/react";
 export default function Home() {
   const router = useRouter();
 
-  const handleLoginRedirect = () => {
-    router.push("/login");
-  };
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="text-center">
@@ -19,6 +15,12 @@ export default function Home() {
           Bienvenidos a Social-UTN, red social oficial de la Universidad Técnica del
           Norte. Conéctate, comparte y colabora con la comunidad universitaria.
         </p>
+
+        <Button className="bg-red-600 text-white hover:bg-red-700"
+          onClick={() => router.push('/login')}
+        >
+          Iniciar Sesión
+        </Button>
       </div>
     </main>
   );

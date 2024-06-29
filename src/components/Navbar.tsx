@@ -29,8 +29,6 @@ export default function CustomNavbar() {
         <LoginButton/>
       )}
       
-
-      
     </Navbar>
   );
 }

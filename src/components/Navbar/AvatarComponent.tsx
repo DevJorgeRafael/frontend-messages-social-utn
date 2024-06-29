@@ -6,14 +6,25 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import React from "react";
+import { useAuth } from "@/context/authContext";
+import { EstudianteDetalle } from "@/interfaces/academico/estudiante-detalle.interface";
+import { ProfesorDetalle } from "@/interfaces/academico/profesor-detalle.interface";
 
 export const AvatarComponent = () => {
+  const {user, logout } = useAuth()
+  console.log(user)
+
+  //type guards
+  const displayName = (user as EstudianteDetalle)?.estudiante?.est_nombre || (user as ProfesorDetalle)?.profesor?.pr_nombre || ""
+  const displatLastName = (user as EstudianteDetalle)?.estudiante?.est_apellido || (user as ProfesorDetalle)?.profesor?.pr_apellido || ""
+  const displayEmail = (user as EstudianteDetalle)?.estudiante?.est_email || (user as ProfesorDetalle)?.profesor?.pr_email || ""
+  const displayUsuario = (user as EstudianteDetalle)?.estudiante?.est_usuario || (user as ProfesorDetalle)?.profesor?.pr_usuario || ""
+
   return (
     <NavbarContent as="div" justify="end">
       <Dropdown placement="bottom-end">
         <DropdownTrigger>
-          <Avatar name="Any name" />
+          <Avatar name={displayName} />
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">
           <DropdownItem
@@ -21,8 +32,8 @@ export const AvatarComponent = () => {
             className="h-14 gap-2 text-gray-800"
             textValue="Signed in as zoey@example.com"
           >
-            <p className="font-semibold">Signed in as</p>
-            <p className="font-semibold">zoey@example.com</p>
+            <p className="font-semibold">{displayName} {displatLastName}</p>
+            <p className="font-semibold">{displayEmail}</p>
           </DropdownItem>
           <DropdownItem
             className="text-gray-800"
@@ -32,47 +43,13 @@ export const AvatarComponent = () => {
             My Settings
           </DropdownItem>
           <DropdownItem
-            className="text-gray-800"
-            key="team_settings"
-            textValue="Team Settings"
-          >
-            Team Settings
-          </DropdownItem>
-          <DropdownItem
-            className="text-gray-800"
-            key="analytics"
-            textValue="Analytics"
-          >
-            Analytics
-          </DropdownItem>
-          <DropdownItem
-            className="text-gray-800"
-            key="system"
-            textValue="System"
-          >
-            System
-          </DropdownItem>
-          <DropdownItem
-            className="text-gray-800"
-            key="configurations"
-            textValue="Configurations"
-          >
-            Configurations
-          </DropdownItem>
-          <DropdownItem
-            className="text-gray-800"
-            key="help_and_feedback"
-            textValue="Help & Feedback"
-          >
-            Help & Feedback
-          </DropdownItem>
-          <DropdownItem
-            className="text-red-800"
+            className="text-red-800 font-semibold"
             key="logout"
             color="danger"
-            textValue="Log Out"
+            textValue="Cerrar Sesión"
+            onClick={logout}
           >
-            Log Out
+            Cerrar Sesión
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
