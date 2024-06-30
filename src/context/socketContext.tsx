@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { io, Socket } from "socket.io-client";
 import Cookies from "js-cookie";
+import { useAuth } from "./authContext";
 
 interface SocketContextType {
   socket: Socket | null;
@@ -28,6 +29,7 @@ interface SocketProviderProps {
 }
 
 export const SocketProvider = ({ children }: SocketProviderProps) => {
+  const { user, isAuthenticated } = useAuth()
   const token = Cookies.get("access_token");
   const [socket, setSocket] = useState<Socket | null>(null);
 
@@ -58,6 +60,12 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
       };
     }
   }, [token]);
+
+  useEffect(() => {
+    if (!isAuthenticated && socket) {
+      socket.close(); //Cierra el socket y no intenta reconectarse, dissconnect() si intenta volver a conectarse
+    }
+  }, [isAuthenticated, user])
 
   return (
     <SocketContext.Provider value={{ socket }}>

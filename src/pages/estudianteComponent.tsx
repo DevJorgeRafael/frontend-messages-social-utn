@@ -1,7 +1,7 @@
 import React from "react";
-import { ChatList } from "@/components/ChatListComponent";
-import { ChatWindow } from "@/components/ChatWindowComponent";
-import { ChatInput } from "@/components/ChatInputComponent";
+import { ChatListAcademico } from "@/components/Chat/ChatListAcademico";
+import { ChatWindow } from "@/components/Chat/ChatWindowComponent";
+import { ChatInput } from "@/components/Chat/ChatInputComponent";
 import { Settings } from "@/components/Settings/SettingsComponent";
 
 interface EstudianteComponentProps {
@@ -17,8 +17,8 @@ export const EstudianteComponent = ({
     <div className="flex h-screen">
       <div className="flex-1 flex flex-co">
         <div className="flex flex-1 overflow-hidden">
-          <div className="w-1/4 bg-gray-100 overflow-y-auto">
-            {view === "chat" && <ChatList />}
+          <div className="w-1/3 bg-gray-100 overflow-y-auto">
+            {view === "chat" && <ChatListAcademico />}
             {view === "settings" && <Settings />}
           </div>
           <div className="flex-1 flex flex-col bg-white">

@@ -1,35 +1,43 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { BsPeople, BsBook, BsBriefcase, BsHouse, BsGear } from "react-icons/bs";
 import { useAuth } from "@/context/authContext";
 
 export const Sidebar = ({ setView }: { setView: (view: string) => void }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
-  if (!isAuthenticated) {
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      document.body.style.paddingLeft = "55px";
+    } else {
+      document.body.style.paddingLeft = "0";
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="bg-red-600 text-white w-15 shadow-md h-screen fixed top-0 left-0 flex flex-col items-center justify-between">
       <BsHouse
         onClick={() => setView("home")}
-        className="m-4 hover:bg-red-400"
+        className="m-4 rounded-full cursor-pointer"
         size={24}
       />
       <div>
-        <BsPeople
-          onClick={() => setView("main")}
+        {user && "profesor" in user && (
+          <BsBriefcase
+          onClick={() => setView("settings")}
           className="m-4 cursor-pointer"
           size={24}
         />
+        )
+
+        }
         <BsBook
           onClick={() => setView("chat")}
           className="m-4 cursor-pointer"
           size={24}
         />
-        <BsBriefcase
-          onClick={() => setView("settings")}
+        <BsPeople
+          onClick={() => setView("main")}
           className="m-4 cursor-pointer"
           size={24}
         />

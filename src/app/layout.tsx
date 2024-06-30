@@ -28,7 +28,7 @@ export default function RootLayout({
             <NextUIProvider>
               {/* <CustomNavbar /> */}
               {/* <Sidebar/> */}
-              <div className="main-content min-h-screen">{children}</div>
+              <div className="min-h-screen">{children}</div>
             </NextUIProvider>
           </SocketProvider>
         </AuthProvider>
