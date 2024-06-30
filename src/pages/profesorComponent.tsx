@@ -22,8 +22,8 @@ export const ProfesorComponent = ({
             {view === "settings" && <Settings />}
           </div>
           <div className="flex-1 flex flex-col bg-white">
-            <ChatWindow />
-            <ChatInput />
+            <ChatWindow messages={messages} selectedChat={selectedChat} />
+            {selectedChat && <ChatInput selectedChat={selectedChat} />}
           </div>
         </div>
       </div>

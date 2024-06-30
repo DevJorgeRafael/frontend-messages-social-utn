@@ -41,8 +41,8 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
         transports: ["websocket", "polling"],
       });
 
-      newSocket.on("connect", () => {
-        console.log("Connected to WebSocket server");
+      newSocket.on("connected", (welcomeMessage: string) => {
+        console.log(welcomeMessage);
       });
 
       newSocket.on("disconnect", (reason) => {

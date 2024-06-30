@@ -1,4 +1,4 @@
-import { Chat } from "./Chat.interface";
+import { Chat } from "./chat.interface";
 
 export interface TipoChat {
     tipo_chat_id: number;

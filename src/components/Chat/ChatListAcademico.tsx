@@ -1,9 +1,19 @@
-import { useAuth } from "@/context/authContext";
+import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
+import { Chat } from "@/interfaces/messages/chat.interface";
 
-export const ChatListAcademico = () => {
-  const { user } = useAuth();
-  const asignaturas = user?.asignaturas || [];
+interface ChatListAcademicoProps {
+  chats: Chat[];
+  setSelectedChat: (chat: Chat) => void;
+}
+
+export const ChatListAcademico = ({
+  chats,
+  setSelectedChat,
+}: ChatListAcademicoProps) => {
+  const handleChatClick = (chat: Chat) => {
+    setSelectedChat(chat);
+  };
 
   return (
     <div className="">
@@ -16,17 +26,27 @@ export const ChatListAcademico = () => {
         />
       </div>
       <div>
-        {asignaturas.map((asignatura, index) => (
+        {chats.map((chat, index) => (
           <div
             key={index}
             className="flex p-2 items-center hover:bg-slate-300 w-full cursor-pointer"
+            onClick={() => handleChatClick(chat)}
           >
-            <AiOutlineTeam className="mr-3 text-gray-800 rounded-full bg-slate-200" size={32}/>
+            <AiOutlineTeam
+              className="mr-3 text-gray-800 rounded-full bg-slate-200"
+              size={32}
+            />
             <div className="flex-grow">
-              <p className="font-bold text-gray-800">{asignatura.as_nombre}</p>
-              <p className="text-gray-500 text-sm">last message</p>
+              <p className="font-bold text-gray-800">{chat.chat_nombre}</p>
+              <p className="text-gray-500 text-sm">
+                {chat.mensajes[0]?.contenido || "Ningún mensaje aún"}
+              </p>
             </div>
-            <div className="text-gray-400 text-sm">10 PM</div>
+            <div className="text-gray-400 text-sm">
+              {chat.mensajes[0]?.fecha
+                ? new Date(chat.mensajes[0].fecha).toLocaleTimeString()
+                : ""}
+            </div>
           </div>
         ))}
       </div>
