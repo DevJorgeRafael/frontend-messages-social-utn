@@ -42,7 +42,7 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
       });
 
       newSocket.on("connected", (welcomeMessage: string) => {
-        console.log(welcomeMessage);
+        console.log("Socket Message: " ,welcomeMessage);
       });
 
       newSocket.on("disconnect", (reason) => {

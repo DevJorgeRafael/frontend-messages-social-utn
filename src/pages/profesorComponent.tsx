@@ -14,8 +14,6 @@ interface ProfesorComponentProps {
   setView: (view: string) => void;
 }
 
-
-
 export const ProfesorComponent = ({
   view,
   setView,
